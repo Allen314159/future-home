@@ -115,10 +115,16 @@ function Home() {
               <div className="bg-white rounded-lg shadow-md text-center p-5 m-2 w-36">
                 <i className="fas fa-traffic-light text-3xl w-12 h-12 mx-auto mb-2"></i>
                 <div className="font-bold">Điều khiển LED RGB</div>
+                <select class="col-start-1 row-start-1 appearance-none bg-blue-100 blue:bg-gray-800 text-black font-bold py-1 px-4 rounded-lg shadow-md focus:outline-none focus:shadow-outline">
+                  <option>Đỏ</option>
+                  <option>Vàng</option>
+                  <option>Xanh</option>
+                </select>
               </div>
               <div className="bg-white rounded-lg shadow-md text-center p-5 m-2 w-36">
                 <i className="fas fa-fan text-3xl w-12 h-12 mx-auto mb-2"></i>
                 <div className="font-bold">Điều khiển quạt</div>
+                <input type="range" min="0" max="100" step="10" class="w-full mt-2" />
               </div>
               <div className="bg-white rounded-lg shadow-md text-center p-5 m-2 w-36">
                 <i className="fas fa-door-closed text-3xl w-12 h-12 mx-auto mb-2"></i>
