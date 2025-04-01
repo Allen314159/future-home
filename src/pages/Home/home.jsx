@@ -3,9 +3,9 @@ import "./home.css";
 import { useState, useEffect } from "react";
 import { Client } from "@stomp/stompjs";
 import apiService from "../../components/apiService";
+import { useRef } from "react";
 
 function Home() {
-  const [data, setData] = useState({});
   const [currTemperature, setCurrTemperature] = useState(0); // Use state for temperature
   const [currHumid, setCurrHumid] = useState(0); // Use state for humidity
   const [currLight, setCurrLight] = useState(0); // Use state for light
@@ -56,6 +56,33 @@ function Home() {
         const data = await apiService.lightOff();
         console.log("API response (Tắt đèn):", data);
       }
+    } catch (error) {
+      console.error("Lỗi khi gọi API:", error);
+    }
+  };
+
+  const [speed, setSpeed] = useState(0); // State for fan speed
+  const handleFanSpeedChange = async (event) => {
+    setSpeed(event.target.value);
+    const speedValue = event.target.value;
+    setSpeed(speedValue);
+    console.log("Tốc độ quạt:", speedValue);
+    try{
+      const data = await apiService.fanspeed(speedValue);
+      console.log("API response (Tốc độ quạt):", data);
+    } catch (error) {
+      console.error("Lỗi khi gọi API:", error);
+    }
+  };
+
+  const [colorRGB, setColorRGB] = useState(0); // State for fan speed
+  const handleColorRGBChange = async (event) => {
+    const colorValue = event.target.value;
+    setColorRGB(colorValue);
+    console.log("Màu:", colorValue);
+    try{
+      const data = await apiService.changeColor(colorValue);
+      console.log("API response (Màu):", data);
     } catch (error) {
       console.error("Lỗi khi gọi API:", error);
     }
@@ -115,16 +142,30 @@ function Home() {
               <div className="bg-white rounded-lg shadow-md text-center p-5 m-2 w-36">
                 <i className="fas fa-traffic-light text-3xl w-12 h-12 mx-auto mb-2"></i>
                 <div className="font-bold">Điều khiển LED RGB</div>
-                <select class="col-start-1 row-start-1 appearance-none bg-blue-100 blue:bg-gray-800 text-black font-bold py-1 px-4 rounded-lg shadow-md focus:outline-none focus:shadow-outline">
-                  <option>Đỏ</option>
-                  <option>Vàng</option>
-                  <option>Xanh</option>
+                <select
+                  id="colorSelect"
+                  className="col-start-1 row-start-1 appearance-none bg-blue-100 text-black font-bold py-1 px-4 rounded-lg shadow-md focus:outline-none focus:shadow-outline"
+                  value={colorRGB} // Đồng bộ giá trị với state
+                  onChange={handleColorRGBChange} // Thêm sự kiện onChange
+                >
+                  <option value="ff0000">Đỏ</option>
+                  <option value="ffff00">Vàng</option>
+                  <option value="0000ff">Xanh</option>
                 </select>
               </div>
               <div className="bg-white rounded-lg shadow-md text-center p-5 m-2 w-36">
                 <i className="fas fa-fan text-3xl w-12 h-12 mx-auto mb-2"></i>
                 <div className="font-bold">Điều khiển quạt</div>
-                <input type="range" min="0" max="100" step="10" class="w-full mt-2" />
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="10"
+                  className="w-full mt-2"
+                  value={speed} // Giá trị của input luôn bằng state
+                  onChange={handleFanSpeedChange} // Cập nhật state khi thay đổi
+                />
+                <p>Tốc độ: <span>{speed}</span>%</p>
               </div>
               <div className="bg-white rounded-lg shadow-md text-center p-5 m-2 w-36">
                 <i className="fas fa-door-closed text-3xl w-12 h-12 mx-auto mb-2"></i>

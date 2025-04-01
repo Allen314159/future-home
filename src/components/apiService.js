@@ -45,6 +45,70 @@ export const lightOff = async () => {
       throw error;
     }
   };
+// /rgb/{value}
+// Hàm gọi API để thay đổi màu sắc đèn RGB
+export const changeColor = async (color) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/rgb/${color}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Lỗi API với status: ${response.status}`);
+    }
+    
+    // Trả về dữ liệu JSON từ server
+    return await response.json();
+  } catch (error) {
+    console.error("Lỗi khi gọi API changeColor:", error);
+    throw error;
+  }
+};
+export const fanspeed = async (speed) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/fan/on/${speed}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Lỗi API với status: ${response.status}`);
+    }
+    
+    // Trả về dữ liệu JSON từ server
+    return await response.json();
+  } catch (error) {
+    console.error("Lỗi khi gọi API changeColor:", error);
+    throw error;
+  }
+};
+
+export const doorClose = async (speed) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/fan/on/${speed}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Lỗi API với status: ${response.status}`);
+    }
+    
+    // Trả về dữ liệu JSON từ server
+    return await response.json();
+  } catch (error) {
+    console.error("Lỗi khi gọi API changeColor:", error);
+    throw error;
+  }
+};
+
 
 // Bạn có thể thêm các hàm gọi API khác tại đây
 // Ví dụ: getStatus, updateColor, v.v.
@@ -52,4 +116,6 @@ export const lightOff = async () => {
 export default {
   lightOn,
   lightOff,
+  changeColor,
+  fanspeed
 };
