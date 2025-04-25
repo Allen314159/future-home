@@ -1,6 +1,6 @@
 import React from "react";
 import "./home.css";
-import Switch from "../../components/switch"; 
+import Switch from "../../components/switch";
 import Fan from "../../components/fan";
 
 function Home() {
@@ -50,7 +50,10 @@ function Home() {
                 <i className="fas fa-lightbulb text-3xl w-12 h-12 mx-auto mb-2"></i>
                 <div className="font-bold">Điều khiển đèn</div>
                 <div className="flex items-center justify-center">
-                  <Switch/>
+                  <label className="switch">
+                    <input type="checkbox" />
+                    <span className="slider"></span>
+                  </label>
                 </div>
               </div>
               <div className="bg-white rounded-lg shadow-md text-center p-5 m-2 w-36">
@@ -65,7 +68,13 @@ function Home() {
               <div className="bg-white rounded-lg shadow-md text-center p-5 m-2 w-36">
                 <i className="fas fa-fan text-3xl w-12 h-12 mx-auto mb-2"></i>
                 <div className="font-bold">Điều khiển quạt</div>
-                <input type="range" min="0" max="100" step="10" class="w-full mt-2"></input>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="10"
+                  class="w-full mt-2"
+                ></input>
               </div>
               <div className="bg-white rounded-lg shadow-md text-center p-5 m-2 w-36">
                 <i className="fas fa-door-closed text-3xl w-12 h-12 mx-auto mb-2"></i>
