@@ -4,8 +4,11 @@ import { useState, useEffect } from "react";
 import { Client } from "@stomp/stompjs";
 import apiService from "../../components/apiService";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
+  
   const [currTemperature, setCurrTemperature] = useState(0); // Use state for temperature
   const [currHumid, setCurrHumid] = useState(0); // Use state for humidity
   const [currLight, setCurrLight] = useState(0); // Use state for light
@@ -192,7 +195,10 @@ function Home() {
                 <span className="block mt-1 text-sm">{currLight} lux</span>
               </div>
             </div>
-            <button className="bg-gray-800 text-white rounded-full py-2 px-4 mb-3 w-full">
+            <button
+              className="bg-gray-800 text-white rounded-full py-2 px-4 mb-3 w-full"
+              onClick={() => navigate("/report")}
+            >
               Tổng quan và báo cáo
             </button>
             <button className="bg-gray-800 text-white rounded-full py-2 px-4 w-full">
