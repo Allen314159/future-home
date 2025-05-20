@@ -1,7 +1,6 @@
 import React from "react";
 import "./home.css";
-import Switch from "../../components/switch";
-import Fan from "../../components/fan";
+
 
 function Home() {
   return (
