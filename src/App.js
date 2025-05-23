@@ -14,7 +14,13 @@ function App() {
             path={route.path}
             element={
               <Fragment>
-                <route.component />
+                {route.layout ? (
+                  <route.layout>
+                    <route.component />
+                  </route.layout>
+                ) : (
+                  <route.component />
+                )}
               </Fragment>
             }
           />
