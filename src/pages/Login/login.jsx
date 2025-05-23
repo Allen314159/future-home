@@ -64,7 +64,7 @@ const Login = () => {
         <div className="mt-20">
           <h1 className="text-white text-5xl font-extrabold mb-8 underline">FUTURE HOME</h1>
           <h2 className="text-white text-3xl font-bold mb-4">Building the Future...</h2>
-          <p className="text-white text-base mb-8 max-w-md">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p className="text-white text-base mb-8 max-w-md">Chào mừng đến với Future Home – Nơi bạn điều khiển mọi thiết bị thông minh chỉ với một chạm. Quản lý, giám sát và tự động hóa các thiết bị IoT trong nhà bạn mọi lúc, mọi nơi – nhanh chóng, tiện lợi và an toàn..</p>
           <div className="flex gap-2">
             <span className="w-8 h-1 bg-white inline-block rounded"></span>
             <span className="w-4 h-1 bg-white/50 inline-block rounded"></span>
