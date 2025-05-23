@@ -217,10 +217,10 @@ function Home() {
               <i className="fas fa-chart-bar mr-2"></i>
               Tổng quan và báo cáo
             </button>
-            <button className="bg-gray-800 hover:bg-gray-900 text-white rounded-full py-3 px-4 w-full font-semibold shadow transition">
+            {/* <button className="bg-gray-800 hover:bg-gray-900 text-white rounded-full py-3 px-4 w-full font-semibold shadow transition">
               <i className="fas fa-cogs mr-2"></i>
               Kịch bản điều khiển
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
