@@ -90,7 +90,7 @@ export const fanspeed = async (speed) => {
 
 export const doorClose = async (speed) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/fan/on/${speed}`, {
+    const response = await fetch(`${API_BASE_URL}/door/close`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -104,7 +104,28 @@ export const doorClose = async (speed) => {
     // Trả về dữ liệu JSON từ server
     return await response.json();
   } catch (error) {
-    console.error("Lỗi khi gọi API changeColor:", error);
+    console.error("Lỗi khi gọi API closeDoor:", error);
+    throw error;
+  }
+};
+
+export const doorOpen = async (speed) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/door/open`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Lỗi API với status: ${response.status}`);
+    }
+    
+    // Trả về dữ liệu JSON từ server
+    return await response.json();
+  } catch (error) {
+    console.error("Lỗi khi gọi API openDoor:", error);
     throw error;
   }
 };
@@ -117,5 +138,7 @@ export default {
   lightOn,
   lightOff,
   changeColor,
-  fanspeed
+  fanspeed,
+  doorClose,
+  doorOpen
 };

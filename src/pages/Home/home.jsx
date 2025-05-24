@@ -63,6 +63,26 @@ function Home() {
     }
   };
 
+  const [doorOpen, setDoorOpen] = useState(false);
+
+  const handleCheckboxDoorChange = async (e) => {
+    const isChecked = e.target.checked;
+    setDoorOpen(isChecked);
+    console.log("Checkbox state:", isChecked);
+
+    try {
+      if (isChecked) {
+        const data = await apiService.doorOpen();
+        console.log("API response (Mở cửa):", data);
+      } else {
+        const data = await apiService.doorClose();
+        console.log("API response (Đóng cửa):", data);
+      }
+    } catch (error) {
+      console.error("Lỗi khi gọi API:", error);
+    }
+  };
+
   const [speed, setSpeed] = useState(0); // State for fan speed
   const handleFanSpeedChange = async (event) => {
     setSpeed(event.target.value);
@@ -201,7 +221,7 @@ function Home() {
                   <i className="fas fa-door-closed text-3xl mb-2 text-gray-700"></i>
                   <div className="font-bold mb-2">Đang mở cửa</div>
                   <label className="switch">
-                    <input type="checkbox" />
+                    <input type="checkbox" checked={doorOpen} onChange={handleCheckboxDoorChange} />
                     <span className="slider"></span>
                   </label>
                 </div>

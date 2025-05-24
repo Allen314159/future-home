@@ -42,8 +42,8 @@ function Report() {
       // Dữ liệu mẫu
       const data = {
         temperature: [
-          { time: "06:00", value: 25 },
-          { time: "09:00", value: 27 },
+          { time: "06:00:00", value: 25 },
+          { time: "09:00", value: '28' },
           { time: "12:00", value: 30 },
           { time: "15:00", value: 32 },
           { time: "18:00", value: 29 },
