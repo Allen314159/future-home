@@ -64,22 +64,48 @@ function Home() {
   };
 
   const [doorOpen, setDoorOpen] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [pendingDoorState, setPendingDoorState] = useState(false); // trạng thái chờ xử lý
+  const [password, setPassword] = useState("");
 
-  const handleCheckboxDoorChange = async (e) => {
+  // const handleCheckboxDoorChange = async (e) => {
+  //   const isChecked = e.target.checked;
+  //   setDoorOpen(isChecked);
+  //   console.log("Checkbox state:", isChecked);
+
+  //   try {
+  //     if (isChecked) {
+  //       const data = await apiService.doorOpen();
+  //       console.log("API response (Mở cửa):", data);
+  //     } else {
+  //       const data = await apiService.doorClose();
+  //       console.log("API response (Đóng cửa):", data);
+  //     }
+  //   } catch (error) {
+  //     console.error("Lỗi khi gọi API:", error);
+  //   }
+  // };
+
+  const handleCheckboxDoorChange = (e) => {
     const isChecked = e.target.checked;
-    setDoorOpen(isChecked);
-    console.log("Checkbox state:", isChecked);
+    setPendingDoorState(isChecked);      // Lưu trạng thái mới người dùng chọn
+    setShowPasswordModal(true);          // Hiện hộp thoại nhập mật khẩu
+  };
 
+  const handlePasswordSubmit = async () => {
     try {
-      if (isChecked) {
-        const data = await apiService.doorOpen();
-        console.log("API response (Mở cửa):", data);
-      } else {
-        const data = await apiService.doorClose();
-        console.log("API response (Đóng cửa):", data);
-      }
+      const data = pendingDoorState
+        ? await apiService.doorOpen(password)
+        : await apiService.doorClose(password);
+
+      console.log("API response:", data);
+      setDoorOpen(pendingDoorState); // Đổi trạng thái thật sự sau khi xác thực thành công
     } catch (error) {
       console.error("Lỗi khi gọi API:", error);
+      alert("Mật khẩu sai hoặc lỗi hệ thống.");
+    } finally {
+      setShowPasswordModal(false);
+      setPassword("");
     }
   };
 
@@ -217,13 +243,60 @@ function Home() {
                   <p className="mt-1 text-sm">Tốc độ: <span className="font-semibold">{speed}</span>%</p>
                 </div>
                 {/* Cửa */}
-                <div className="bg-gray-50 rounded-xl shadow text-center p-5 transition hover:scale-105 hover:shadow-xl border border-gray-200">
+                {/* <div className="bg-gray-50 rounded-xl shadow text-center p-5 transition hover:scale-105 hover:shadow-xl border border-gray-200">
                   <i className="fas fa-door-closed text-3xl mb-2 text-gray-700"></i>
                   <div className="font-bold mb-2">Đang mở cửa</div>
                   <label className="switch">
                     <input type="checkbox" checked={doorOpen} onChange={handleCheckboxDoorChange} />
                     <span className="slider"></span>
                   </label>
+                </div> */}
+                {/* {Cửa mới} */}
+                <div className="bg-gray-50 rounded-xl shadow text-center p-5 transition hover:scale-105 hover:shadow-xl border border-gray-200">
+                  <i className="fas fa-door-closed text-3xl mb-2 text-gray-700"></i>
+                  <div className="font-bold mb-2">
+                    {doorOpen ? "Đang mở cửa" : "Đang đóng cửa"}
+                  </div>
+                  <label className="switch">
+                    <input
+                      type="checkbox"
+                      checked={doorOpen}
+                      onChange={handleCheckboxDoorChange}
+                    />
+                    <span className="slider"></span>
+                  </label>
+
+                  {showPasswordModal && (
+                    <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+                      <div className="bg-white p-6 rounded-xl shadow-lg w-80">
+                        <h2 className="text-lg font-semibold mb-4">Nhập mật khẩu</h2>
+                        <input
+                          type="password"
+                          className="w-full border border-gray-300 p-2 rounded mb-4"
+                          placeholder="Mật khẩu"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <div className="flex justify-end space-x-2">
+                          <button
+                            className="px-4 py-2 bg-gray-300 rounded"
+                            onClick={() => {
+                              setShowPasswordModal(false);
+                              setPassword("");
+                            }}
+                          >
+                            Hủy
+                          </button>
+                          <button
+                            className="px-4 py-2 bg-blue-600 text-white rounded"
+                            onClick={handlePasswordSubmit}
+                          >
+                            Xác nhận
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

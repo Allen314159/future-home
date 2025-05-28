@@ -11,6 +11,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import apiService from "../../components/apiService";
 
 // Đăng ký các thành phần cho ChartJS
 ChartJS.register(
@@ -40,28 +41,62 @@ function Report() {
       // const res = await fetch(`/api/report?date=${selectedDate}`);
       // const data = await res.json();
       // Dữ liệu mẫu
+
+      const [bulb, fan, rgb, door] = await Promise.all([
+        apiService.getUsage("bulb", selectedDate),
+        apiService.getUsage("fan-speed", selectedDate),
+        apiService.getUsage("rgb-color", selectedDate),
+        apiService.getUsage("door", selectedDate),
+      ]);
+
+      const [temperature, humid, light] = await Promise.all([
+        apiService.getStatictic("temperature", selectedDate),
+        apiService.getStatictic("humid", selectedDate),
+        apiService.getStatictic("light", selectedDate),
+      ]);
+
+      
+
+      console.log("Số lần sử dụng:", {
+        bulb,
+        fan,
+        rgb,
+        door,
+      });
+
       const data = {
-        temperature: [
-          { time: "06:00:00", value: 25 },
-          { time: "09:00", value: '28' },
-          { time: "12:00", value: 30 },
-          { time: "15:00", value: 32 },
-          { time: "18:00", value: 29 },
-          { time: "21:00", value: 26 },
-        ],
-        light: [
-          { time: "06:00", value: 100 },
-          { time: "09:00", value: 300 },
-          { time: "12:00", value: 700 },
-          { time: "15:00", value: 600 },
-          { time: "18:00", value: 200 },
-          { time: "21:00", value: 50 },
-        ],
+        // temperature: [
+        //   { time: "06:00:00", value: 25 },
+        //   { time: "09:00", value: 28 },
+        //   { time: "12:00", value: 30 },
+        //   { time: "15:00", value: 32 },
+        //   { time: "18:00", value: 29 },
+        //   { time: "21:00", value: 26 },
+        // ],
+        // light: [
+        //   { time: "06:00", value: 100 },
+        //   { time: "09:00", value: 300 },
+        //   { time: "12:00", value: 700 },
+        //   { time: "15:00", value: 600 },
+        //   { time: "18:00", value: 200 },
+        //   { time: "21:00", value: 50 },
+        // ],
+        // humid: [
+        //   { time: "08:00", value: 100 },
+        //   { time: "09:00", value: 300 },
+        //   { time: "12:00", value: 700 },
+        //   { time: "15:00", value: 600 },
+        //   { time: "18:00", value: 200 },
+        //   { time: "21:00", value: 500 },
+        // ],
+        temperature: temperature.map(d => ({...d, time: d.time.split(".")[0]})),
+        humid: humid.map(d => ({...d, time: d.time.split(".")[0]})),
+        light: light.map(d => ({...d, time: d.time.split(".")[0]})),
         deviceUsage: [
-          { name: "Đèn", count: 12 },
-          { name: "Quạt", count: 8 },
-          { name: "LED RGB", count: 5 },
-          { name: "Cửa", count: 3 },
+          { name: "Đèn", count: bulb },
+          { name: "Quạt", count: fan },
+          { name: "LED RGB", count: rgb },
+          { name: "Cửa", count: door },
         ],
       };
     //   await new Promise((r) => setTimeout(r, 500));
@@ -188,6 +223,51 @@ function Report() {
                 }}
               />
             </div>
+
+            <div className="mb-10 bg-green-50 rounded-xl p-5 shadow hover:shadow-lg transition">
+              <h3 className="font-bold text-lg mb-3 text-green-700 text-center">
+                Biểu đồ độ ẩm trong ngày
+              </h3>
+              <Line
+                data={{
+                  labels: stats.humid.map((d) => d.time),
+                  datasets: [
+                    {
+                      label: "Độ ẩm (%)",
+                      data: stats.humid.map((d) => d.value),
+                      borderColor: "#34D399",
+                      backgroundColor: "rgba(52, 211, 153, 0.15)",
+                      tension: 0.4,
+                      pointBackgroundColor: "#34D399",
+                    },
+                  ],
+                }}
+                options={{
+                  responsive: true,
+                  plugins: {
+                    legend: {
+                      display: true,
+                      position: "top",
+                      labels: {
+                        color: "#10b981" // màu chữ của legend
+                      }
+                    },
+                  },
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      ticks: { color: "#10b981" }, // màu trục Y
+                      grid: { color: "rgba(16, 185, 129, 0.2)" } // màu lưới Y
+                    },
+                    x: {
+                      ticks: { color: "#10b981" }, // màu trục X
+                      grid: { color: "rgba(16, 185, 129, 0.2)" } // màu lưới X
+                    },
+                  },
+                }}
+              />
+            </div>
+
             <div className="mb-10 bg-green-50 rounded-xl p-5 shadow hover:shadow-lg transition">
               <h3 className="font-bold text-lg mb-3 text-green-700 text-center">
                 Thống kê số lần sử dụng thiết bị
