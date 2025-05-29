@@ -302,7 +302,7 @@ function Home() {
             </div>
           </div>
           {/* Cột phải */}
-          <div className="w-full md:w-1/3 flex flex-col gap-6">
+          {/* <div className="w-full md:w-1/3 flex flex-col gap-6">
             <button
               className="bg-blue-600 hover:bg-blue-700 text-white rounded-full py-3 px-4 w-full font-semibold shadow transition"
               onClick={() => navigate("/report")}
@@ -314,7 +314,25 @@ function Home() {
               <i className="fas fa-cogs mr-2"></i>
               Kịch bản điều khiển
             </button> */}
+          {/* </div> */}
+          <div className="w-1/2 flex flex-col gap-6">
+            <button
+              className="bg-blue-600 hover:bg-blue-700 text-white rounded-full py-3 px-4 w-full font-semibold shadow transition"
+              onClick={() => navigate("/report")}
+            >
+              <i className="fas fa-chart-bar mr-2"></i>
+              Tổng quan và báo cáo
+            </button>
+
+            {/* Nếu bạn muốn bật thêm nút này, chỉ cần bỏ dấu `//` */}
+            
+            <button className="bg-gray-800 hover:bg-gray-900 text-white rounded-full py-3 px-4 w-full font-semibold shadow transition">
+              <i className="fas fa-cogs mr-2"></i>
+              Kịch bản điều khiển
+            </button> 
+           
           </div>
+
         </div>
       </div>
     </div>
