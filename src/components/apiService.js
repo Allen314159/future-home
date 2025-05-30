@@ -199,6 +199,117 @@ export const getStatictic = async (sensorType, time) => {
   }
 };
 
+export const getScenario = async () => {
+  try {
+    console.log("Đang gọi API /web/scenario");
+
+    const response = await fetch(
+      `${API_BASE_URL_WEB}/scenario`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Lỗi API với status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("Kết quả từ API /web/scenario:", data);
+    return data;
+
+  } catch (error) {
+    console.error("Lỗi khi gọi API /web/scenario:", error);
+    throw error;
+  }
+};
+
+export const addScenario = async (formData) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL_WEB}/scenario`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "username": localStorage.getItem("username"),
+        },
+        body: JSON.stringify(formData),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Lỗi API với status: ${response.status}`);
+    }
+
+    console.log("Kết quả từ API:", response);
+    return response;
+
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+    throw error;
+  }
+};
+
+export const deleteScenario = async (id) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL_WEB}/scenario?id=${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("Đang gọi API xóa kịch bản với ID:", id);
+
+    if (!response.ok) {
+      throw new Error(`Lỗi API với status: ${response.status}`);
+    }
+
+    console.log("Kết quả từ API:", response);
+    return response;
+
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+    throw error;
+  }
+};
+
+export const getDeviceLog = async (time) => {
+  try {
+    console.log("Đang gọi API /web/usage với:", {time});
+
+    const response = await fetch(
+      `${API_BASE_URL_WEB}/log?time=${encodeURIComponent(time)}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Lỗi API với status: ${response.status}`);
+    }
+
+    // console.log("Kết quả từ API /web/usage:", await response.json());
+    const data = await response.json();
+    console.log("Kết quả từ API /web/usage:", data);
+    return data;
+
+  } catch (error) {
+    console.error("Lỗi khi gọi API /web/usage:", error);
+    throw error;
+  }
+};
+
 export const changePassword = async (formData) => {
   try {
     console.log("Đang gọi API /login/password với:", { formData });
@@ -242,5 +353,9 @@ export default {
   doorOpen,
   getUsage,
   getStatictic,
-  changePassword
+  changePassword,
+  getScenario,
+  addScenario,
+  deleteScenario,
+  getDeviceLog
 };

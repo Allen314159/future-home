@@ -335,6 +335,19 @@ function Home() {
             </button> */}
           {/* </div> */}
           <div className="w-1/2 flex flex-col gap-6">
+            <button className="bg-blue-800 hover:bg-gray-900 text-white rounded-full py-3 px-4 w-full font-semibold shadow transition">
+              <i className="fas fa-cogs mr-2"></i>
+              Thông tin cá nhân
+            </button> 
+
+            <button 
+              className="bg-red-800 hover:bg-gray-900 text-white rounded-full py-3 px-4 w-full font-semibold shadow transition"
+              onClick={() => navigate("/history")}
+            >
+              <i className="fas fa-cogs mr-2"></i>
+              Lịch sử hoạt động
+            </button> 
+            
             <button
               className="bg-blue-600 hover:bg-blue-700 text-white rounded-full py-3 px-4 w-full font-semibold shadow transition"
               onClick={() => navigate("/report")}
@@ -344,7 +357,10 @@ function Home() {
             </button>
 
             
-            <button className="bg-gray-800 hover:bg-gray-900 text-white rounded-full py-3 px-4 w-full font-semibold shadow transition">
+            <button 
+              className="bg-gray-800 hover:bg-gray-900 text-white rounded-full py-3 px-4 w-full font-semibold shadow transition"
+              onClick={() => navigate("/scenario")}
+            >
               <i className="fas fa-cogs mr-2"></i>
               Kịch bản điều khiển
             </button> 
@@ -357,10 +373,7 @@ function Home() {
               Đổi mật khẩu cửa
             </button> 
 
-            <button className="bg-blue-800 hover:bg-gray-900 text-white rounded-full py-3 px-4 w-full font-semibold shadow transition">
-              <i className="fas fa-cogs mr-2"></i>
-              Thông tin cá nhân
-            </button> 
+            
 
             {/* Modal */}
             {isOpen && (
