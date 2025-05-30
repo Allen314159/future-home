@@ -3,6 +3,8 @@
 // URL gốc của API (có thể thay đổi theo cấu hình của bạn)
 const API_BASE_URL = "http://localhost:8080/adafruit";
 const API_BASE_URL_WEB = "http://localhost:8080/web";
+const API_BASE_URL_AUTH = "http://localhost:8080/login";
+
 
 // Hàm gọi API để bật/tắt đèn
 export const lightOn = async () => {
@@ -197,6 +199,36 @@ export const getStatictic = async (sensorType, time) => {
   }
 };
 
+export const changePassword = async (formData) => {
+  try {
+    console.log("Đang gọi API /login/password với:", { formData });
+
+    const response = await fetch(
+      `${API_BASE_URL_AUTH}/password`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "username": localStorage.getItem("username"),
+        },
+        body: JSON.stringify(formData),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Lỗi API với status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("Kết quả từ API /login/password:", data);
+    return data;
+
+  } catch (error) {
+    console.error("Lỗi khi gọi API /login/password:", error);
+    throw error;
+  }
+};
+
 
 // Bạn có thể thêm các hàm gọi API khác tại đây
 // Ví dụ: getStatus, updateColor, v.v.
@@ -209,5 +241,6 @@ export default {
   doorClose,
   doorOpen,
   getUsage,
-  getStatictic
+  getStatictic,
+  changePassword
 };

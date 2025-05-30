@@ -11,6 +11,25 @@ function Home() {
   const [currTemperature, setCurrTemperature] = useState(0); // Use state for temperature
   const [currHumid, setCurrHumid] = useState(0); // Use state for humidity
   const [currLight, setCurrLight] = useState(0); // Use state for light
+  const [isOpen, setIsOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // TODO: Kiểm tra hợp lệ và gửi dữ liệu lên backend
+    await apiService.changePassword(formData);
+    console.log('Form:', formData);
+    alert("Đổi mật khẩu thành công!");
+    setIsOpen(false); // Đóng modal sau khi submit
+  };
 
   useEffect(() => {
     const client = new Client({
@@ -324,12 +343,83 @@ function Home() {
               Tổng quan và báo cáo
             </button>
 
-            {/* Nếu bạn muốn bật thêm nút này, chỉ cần bỏ dấu `//` */}
             
             <button className="bg-gray-800 hover:bg-gray-900 text-white rounded-full py-3 px-4 w-full font-semibold shadow transition">
               <i className="fas fa-cogs mr-2"></i>
               Kịch bản điều khiển
             </button> 
+
+            <button 
+              className="bg-green-800 hover:bg-gray-900 text-white rounded-full py-3 px-4 w-full font-semibold shadow transition"
+              onClick={() => setIsOpen(true)}
+            >
+              <i className="fas fa-cogs mr-2"></i>
+              Đổi mật khẩu cửa
+            </button> 
+
+            <button className="bg-blue-800 hover:bg-gray-900 text-white rounded-full py-3 px-4 w-full font-semibold shadow transition">
+              <i className="fas fa-cogs mr-2"></i>
+              Thông tin cá nhân
+            </button> 
+
+            {/* Modal */}
+            {isOpen && (
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-lg">
+                  <h2 className="text-xl font-bold mb-4">Đổi mật khẩu cửa</h2>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                      <label className="block font-medium">Mật khẩu cũ</label>
+                      <input
+                        type="password"
+                        name="oldPassword"
+                        value={formData.oldPassword}
+                        onChange={handleChange}
+                        className="w-full border rounded px-3 py-2"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-medium">Mật khẩu mới</label>
+                      <input
+                        type="password"
+                        name="newPassword"
+                        value={formData.newPassword}
+                        onChange={handleChange}
+                        className="w-full border rounded px-3 py-2"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-medium">Xác nhận mật khẩu mới</label>
+                      <input
+                        type="password"
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        className="w-full border rounded px-3 py-2"
+                        required
+                      />
+                    </div>
+                    <div className="flex justify-end space-x-2">
+                      <button
+                        type="button"
+                        onClick={() => setIsOpen(false)}
+                        className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+                      >
+                        Hủy
+                      </button>
+                      <button
+                        type="submit"
+                        className="px-4 py-2 rounded bg-green-700 hover:bg-green-800 text-white font-semibold"
+                      >
+                        Xác nhận
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
            
           </div>
 
